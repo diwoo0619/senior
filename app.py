@@ -83,6 +83,7 @@ FROM population p
 LEFT JOIN 노인의료복지시설 m ON p.자치구 = m.자치구
 GROUP BY p.자치구
 ORDER BY 시설당노인수 DESC
+LIMIT 10
 """
 df2 = run_query(sql2)
 
