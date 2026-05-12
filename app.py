@@ -31,11 +31,12 @@ st.info("고령화율이 높은 지역에 재가복지시설이 충분히 배치
 
 sql1 = """
 SELECT 
-    p.자치구, 
-    (CAST(p.고령인구 AS FLOAT) / p.전체인구 * 100) as 고령화율,
-    COUNT(f.시설명) as 재가시설수
+    p.자치구,
+    CAST(p.고령인구 AS FLOAT) / p.전체인구 * 100 AS 고령화율,
+    COUNT(DISTINCT f.시설코드) AS 재가시설수, 
+    ROUND(CAST(p.고령인구 AS FLOAT) / COUNT(DISTINCT f.시설코드), 0) AS 시설당노인수
 FROM population p
-JOIN 재가노인복지시설 f ON p.자치구 = f.자치구
+LEFT JOIN 재가노인복지시설 f ON p.자치구 = f.자치구
 GROUP BY p.자치구
 ORDER BY 고령화율 DESC
 """
@@ -69,7 +70,8 @@ st.info("시설 1개당 담당하는 노인 수가 많을수록 의료 서비스
 sql2 = """
 SELECT 
     p.자치구, 
-    (CAST(p.고령인구 AS FLOAT) / COUNT(m.시설명)) as 시설당노인수
+    COUNT(DISTINCT m.시설코드) AS 의료시설수,
+    (CAST(p.고령인구 AS FLOAT) / COUNT(DISTINCT m.시설코드)) as 시설당노인수
 FROM population p
 JOIN 노인의료복지시설 m ON p.자치구 = m.자치구
 GROUP BY p.자치구
