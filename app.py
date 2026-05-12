@@ -80,7 +80,8 @@ SELECT
     COUNT(DISTINCT m.시설코드) AS 의료시설수,
     (CAST(p.고령인구 AS FLOAT) / COUNT(DISTINCT m.시설코드)) as 시설당노인수
 FROM population p
-LEFT JOIN 노인의료복지시설 m ON p.자치구 = m.자치구GROUP BY p.자치구
+LEFT JOIN 노인의료복지시설 m ON p.자치구 = m.자치구
+GROUP BY p.자치구
 ORDER BY 시설당노인수 DESC
 """
 df2 = run_query(sql2)
