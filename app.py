@@ -89,7 +89,7 @@ df2 = run_query(sql2)
 
 # 시각화 (가로 막대 차트)
 fig2 = px.bar(df2, x='시설당노인수', y='자치구', orientation='h',
-             title="자치구별 의료시설 1개당 고령인구 수 (상위일수록 부족)",
+             title="자치구별 의료시설 1개당 고령인구 수 TOP 10 (상위일수록 부족)",
              color='시설당노인수', color_continuous_scale='Reds')
 st.plotly_chart(fig2, use_container_width=True)
 
